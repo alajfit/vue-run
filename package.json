@@ -1,5 +1,8 @@
 {
   "name": "vue-run",
+  "bin": {
+    "vsr": "./bin/vue-sfc-runner.js"
+  },
   "version": "0.0.1",
   "description": "Run Vue Single File Components from the CLI",
   "main": "dist/vue-run.umd.js",
@@ -35,5 +38,8 @@
     "parcel": "^1.9.4",
     "release-it": "^7.4.7",
     "vuepress": "^0.10.2"
+  },
+  "dependencies": {
+    "inquirer": "^6.0.0"
   }
 }
