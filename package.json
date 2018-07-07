@@ -1,0 +1,39 @@
+{
+  "name": "vue-run",
+  "version": "0.0.1",
+  "description": "Run Vue Single File Components from the CLI",
+  "main": "dist/vue-run.umd.js",
+  "scripts": {
+    "build:umd": "parcel build src/index.js --out-dir dist --out-file vuex-apollo.umd.js --target node",
+    "build": "npm run build:umd",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
+    "lint": "eslint --ext .js src",
+    "release": "release-it"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alajfit/vue-run.git"
+  },
+  "keywords": [
+    "vue"
+  ],
+  "author": "Alan J. Fitzpatrick <alajfit@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alajfit/vue-run/issues"
+  },
+  "homepage": "https://github.com/alajfit/vue-run#readme",
+  "devDependencies": {
+    "babel-eslint": "^8.2.5",
+    "eslint": "^5.0.1",
+    "eslint-config-standard": "^11.0.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^6.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
+    "parcel": "^1.9.4",
+    "release-it": "^7.4.7",
+    "vuepress": "^0.10.2"
+  }
+}
