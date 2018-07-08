@@ -1,15 +1,7 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
-
-function entry (componentName, fileImport) {
-    return `
-        document.querySelector('body').innerHTML = '<div id="app"><${componentName} /></div>'
-
-        import Test from '${fileImport}'
-        import Vue from 'vue/dist/vue.js'
-    `
-}
+const entry = require('../entry')
 
 module.exports = opts => {
 
@@ -22,7 +14,7 @@ module.exports = opts => {
             port: 9000,
             disableHostCheck: true
         },
-        entry: () => entry(opts.componentName, opts.entry), // './test/demo/entry.js',
+        entry: () => new Promise(resolve => resolve(entry(opts.componentName, opts.entry))), // './test/demo/entry.js',
 
         module: {
             rules: [
