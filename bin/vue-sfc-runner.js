@@ -10,10 +10,11 @@ console.log('Running a Vue File')
  */
 
 const fs = require('fs')
+const path = require('path')
 const inquirer = require('inquirer')
 
 async function run() {
-    const availableFiles = fs.readdirSync(process.cwd())
+    const availableFiles = fs.readdirSync(process.cwd()).filter(file => path.extname(file) === ".vue")
 
     const questions = await inquirer.prompt([
       {
