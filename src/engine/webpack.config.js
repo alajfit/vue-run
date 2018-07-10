@@ -1,12 +1,14 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
-const entry = require('../entry')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = opts => {
+    console.log(opts)
 
     const config = {
         devtool: 'eval-source-map',
+        mode: 'development',
         devServer: {
             contentBase: opts.cwd,
             compress: true,
@@ -14,7 +16,7 @@ module.exports = opts => {
             port: 9000,
             disableHostCheck: true
         },
-        entry: () => new Promise(resolve => resolve(entry(opts.componentName, opts.entry))), // './test/demo/entry.js',
+        entry: path.resolve(__dirname, '../entry/index.js'),
 
         module: {
             rules: [
@@ -43,7 +45,12 @@ module.exports = opts => {
         },
 
         plugins: [
-            new HtmlWebpackPlugin()
+            new HtmlWebpackPlugin(),
+            new VueLoaderPlugin(),
+            new webpack.DefinePlugin({
+                COMP: JSON.stringify(opts.componentName),
+                LOCA: JSON.stringify(opts.entry)
+            })
         ]
     }
 

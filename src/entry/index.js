@@ -1,9 +1,8 @@
-const entry = (componentName, fileImport) =>
-    `
-        document.querySelector('body').innerHTML = '<div id="app"><${componentName} /></div>'
+document.querySelector('body').innerHTML = `<div id="app"><${COMP} /></div>`
 
-        import Test from '${fileImport}'
-        import Vue from 'vue/dist/vue.js'
-    `
+const Component = require(LOCA)
+const Vue = require('vue/dist/vue.js')
 
-module.exports = entry
+Vue.component(Component.default.name, Component.default)
+
+new Vue({ el: '#app' })
