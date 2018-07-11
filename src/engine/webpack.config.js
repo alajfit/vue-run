@@ -98,6 +98,9 @@ module.exports = opts => {
                 COMP: JSON.stringify(opts.componentName),
                 LOCA: JSON.stringify(opts.entry),
                 PROPS: JSON.stringify(opts.props || [])
+            }),
+            new webpack.ProvidePlugin({
+                Vue: ['vue/dist/vue.esm.js', 'default']
             })
         ]
     }
