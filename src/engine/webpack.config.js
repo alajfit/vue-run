@@ -4,18 +4,22 @@ const path = require('path')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = opts => {
-    console.log(opts)
-
     const config = {
         devtool: 'eval-source-map',
         mode: 'development',
         devServer: {
-            stats: 'minimal',
+            stats: 'errors-only',
+            minimal: 'minimal',
             contentBase: opts.cwd,
+            logLevel: 'error', // trace, debug, info, warn, error, silent
             compress: true,
             open: true,
             port: 9000,
             disableHostCheck: true
+        },
+        stats: {
+            chunks: false,
+            chunkModules: false
         },
         entry: path.resolve(__dirname, '../entry/index.js'),
 
@@ -92,7 +96,8 @@ module.exports = opts => {
             new VueLoaderPlugin(),
             new webpack.DefinePlugin({
                 COMP: JSON.stringify(opts.componentName),
-                LOCA: JSON.stringify(opts.entry)
+                LOCA: JSON.stringify(opts.entry),
+                PROPS: JSON.stringify(opts.props || [])
             })
         ]
     }

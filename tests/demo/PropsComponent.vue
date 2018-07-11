@@ -1,5 +1,9 @@
 <template>
-    <div>{{ name }}</div>
+    <div>
+        <h1>Testing Component with Props</h1>
+        <p>{{ name }}</p>
+        <p v-if="showage">{{ age }}</p>
+    </div>
 </template>
 
 <script>
@@ -8,6 +12,12 @@
         props: {
             name: {
                 type: String
+            },
+            age: {
+                type: Number
+            },
+            showage: {
+                type: Boolean
             }
         }
     }
