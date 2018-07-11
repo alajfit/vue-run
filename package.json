@@ -4,7 +4,7 @@
     "vsr": "./bin/vue-sfc-runner.js",
     "vue-run": "./bin/vue-sfc-runner.js"
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Run Vue Single File Components from the CLI",
   "main": "dist/vue-run.umd.js",
   "scripts": {
