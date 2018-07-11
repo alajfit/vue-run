@@ -10,6 +10,7 @@ module.exports = opts => {
         devtool: 'eval-source-map',
         mode: 'development',
         devServer: {
+            stats: 'minimal',
             contentBase: opts.cwd,
             compress: true,
             open: true,
@@ -22,17 +23,7 @@ module.exports = opts => {
             rules: [
                 {
                     test: /\.vue$/,
-                    loader: 'vue-loader',
-                    options: {
-                        loaders: {
-                            js: {
-                                loader: 'babel-loader'
-                            }, 
-                            scss: 'vue-style-loader!css-loader!sass-loader',
-                            sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
-                            less: 'vue-style-loader!css-loader!less-loader'
-                        }
-                    }
+                    loader: 'vue-loader'
                 },
                 {
                     test: /\.js$/,
@@ -40,12 +31,64 @@ module.exports = opts => {
                     use: {
                         loader: 'babel-loader'
                     }
+                },
+                {
+                    test: /\.pug$/,
+                    oneOf: [
+                        {
+                            resourceQuery: /^\?vue/,
+                            use: ['pug-plain-loader']
+                        },
+                        {
+                            use: ['raw-loader', 'pug-plain-loader']
+                        }
+                    ]
+                },
+                {
+                    test: /\.css$/,
+                    oneOf: [
+                        {
+                            resourceQuery: /module/,
+                            use: [
+                                'vue-style-loader',
+                                {
+                                    loader: 'css-loader',
+                                    options: {
+                                        modules: true,
+                                        localIdentName: '[local]_[hash:base64:8]'
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            use: [
+                                'vue-style-loader',
+                                'css-loader'
+                            ]
+                        }
+                    ]
+                }, {
+                    test: /\.scss$/,
+                    use: [
+                        'vue-style-loader',
+                        'css-loader',
+                        {
+                            loader: 'sass-loader',
+                            // global data for all components
+                            // this can be read from a scss file
+                            options: {
+                                data: '$color: red;'
+                            }
+                        }
+                    ]
                 }
             ]
         },
 
         plugins: [
-            new HtmlWebpackPlugin(),
+            new HtmlWebpackPlugin({
+                favicon: path.resolve(__dirname, '../../docs/assets/vue.png')
+            }),
             new VueLoaderPlugin(),
             new webpack.DefinePlugin({
                 COMP: JSON.stringify(opts.componentName),

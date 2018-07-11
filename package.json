@@ -1,7 +1,8 @@
 {
   "name": "vue-run",
   "bin": {
-    "vsr": "./bin/vue-sfc-runner.js"
+    "vsr": "./bin/vue-sfc-runner.js",
+    "vue-run": "./bin/vue-sfc-runner.js"
   },
   "version": "0.0.1",
   "description": "Run Vue Single File Components from the CLI",
@@ -46,6 +47,9 @@
     "html-webpack-plugin": "^3.2.0",
     "inquirer": "^6.0.0",
     "less-loader": "^4.1.0",
+    "node-sass": "^4.9.2",
+    "pug-plain-loader": "^1.0.0",
+    "raw-loader": "^0.5.1",
     "sass-loader": "^7.0.3",
     "vue-loader": "^15.2.4",
     "vue-style-loader": "^4.1.0",

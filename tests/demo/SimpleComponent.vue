@@ -14,3 +14,16 @@
         name: 'simple-component'
     }
 </script>
+
+<style lang="scss" scoped>
+    .sc__container {
+        position: relative;
+        border: 1px solid grey;
+        font-size: 16px;
+        padding: 24px;
+
+        .sc__container-title {
+            position: relative;
+        }
+    }
+</style>
