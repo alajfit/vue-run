@@ -1,8 +1,11 @@
 const fs = require('fs')
 const path = require('path')
 const inquirer = require('inquirer')
-
 const serve = require('webpack-serve')
+const compiler = require('vue-template-compiler')
+const Vue = require('vue')
+
+
 const configSFC = require('./engine/webpack.config.js')
 
 /**
@@ -26,30 +29,28 @@ async function run() {
       }
     ])
 
-    const comp = fs.readFileSync(`${process.cwd()}/${questions.file}`, 'utf8')
-      .match(/(?<=(<script>))(\w|\d|\n|[().,\-:;@#$%^&*\[\]"'+–/\/®°⁰!?{}|`~]| )+?(?=(<\/script>))/m)
-
     let propsData = []
 
-    if (comp.length) {
-      const exportObj = comp[0]
-        .split('export default ')
-        .pop()
+    const vueFile = fs.readFileSync(`${process.cwd()}/${questions.file}`, 'utf8')
+    const parsed = compiler.parseComponent(vueFile)
+    const script = parsed.script ? parsed.script.content : ''
 
-      const cleanObj = exportObj
+    if (script) {
+      const scriptContents = script.split('export default ').pop()
         .replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ')
-        .replace(/'/g, '"')
+        .replace(/('|`)/g, '"')
         .replace(/(?<![\S"])(\w+)(?![\S"])/g, '"$1"')
 
-      const workingObj = JSON.parse(cleanObj)
-
+      const scriptObj = JSON.parse(scriptContents)
       const propsRequired = []
 
-      if (workingObj.props) {
-        Object.keys(workingObj.props).forEach(prop => { 
+      if (scriptObj.props) {
+        console.log(scriptObj.props)
+        
+        Object.keys(scriptObj.props).forEach(prop => { 
           propsRequired.push({
-            name: `${prop}/${workingObj.props[prop].type}`,
-            message: `Please enter the prop data for "${prop}" of type "${workingObj.props[prop].type}"`,
+            name: `${prop}/${scriptObj.props[prop].type}`,
+            message: `Please enter the prop data for "${prop}" of type "${scriptObj.props[prop].type}"`,
             type: 'input'
           })
         })

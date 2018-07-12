@@ -53,6 +53,7 @@
     "sass-loader": "^7.0.3",
     "vue-loader": "^15.2.4",
     "vue-style-loader": "^4.1.0",
+    "vue-template-compiler": "^2.5.16",
     "webpack": "^4.15.1",
     "webpack-plugin-replace": "^1.1.1",
     "webpack-serve": "^1.0.4"

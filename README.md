@@ -4,7 +4,7 @@ Run Vue Single File Components from the CLI
 [![npm](https://img.shields.io/npm/v/vue-run.svg) ![npm](https://img.shields.io/npm/dm/vue-run.svg)](https://www.npmjs.com/package/vue-run)
 ![Vue 2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)
 
-> Currently a WIP, star us and key an eye out
+> Currently a WIP, star us and key an eye out / This is meant for Presentational components only
 
 <p align="center">
     <img width="200" height="200" src="./docs/assets/vue-run.png" />
