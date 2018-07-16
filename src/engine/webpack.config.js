@@ -7,19 +7,12 @@ module.exports = opts => {
     const config = {
         devtool: 'eval-source-map',
         mode: 'development',
-        devServer: {
-            stats: 'errors-only',
-            minimal: 'minimal',
+        serve: {
             contentBase: opts.cwd,
-            logLevel: 'error', // trace, debug, info, warn, error, silent
             compress: true,
             open: true,
             port: 9000,
             disableHostCheck: true
-        },
-        stats: {
-            chunks: false,
-            chunkModules: false
         },
         entry: path.resolve(__dirname, '../entry/index.js'),
 
@@ -91,6 +84,7 @@ module.exports = opts => {
 
         plugins: [
             new HtmlWebpackPlugin({
+                title: 'vue-run',
                 favicon: path.resolve(__dirname, '../../docs/assets/vue.png')
             }),
             new VueLoaderPlugin(),

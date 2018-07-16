@@ -1,14 +1,18 @@
-document.querySelector('body').innerHTML = `
-    <div id="app">
-        <${COMP}
-            ${PROPS.length
-                ? PROPS.map(prop => `:${prop.key}="${prop.type === 'String'?"'": ""}${prop.value}${prop.type === 'String'?"'": ""}" `).join('')
-                : ''} />
-    </div>
-`
+document.querySelector('body').innerHTML = `<div id="app"></div>`
 
-const Component = require(LOCA)
+Vue.config.productionTip = false
+const app = new Vue({ 
+    template: `<div ref="container"></div>`,
+    el: '#app'
+})
 
-Vue.component(Component.default.name, Component.default)
+const ComponentClass = Vue.extend(require(LOCA).default)
+const propsData = {}
+PROPS.forEach(prop => propsData[prop.key] = prop.value)
 
-new Vue({ el: '#app' })
+const instance = new ComponentClass({
+    propsData
+})
+instance.$slots.default = ['Slot Default Content!']
+instance.$mount()
+app.$refs.container.appendChild(instance.$el)

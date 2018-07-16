@@ -4,6 +4,8 @@ const inquirer = require('inquirer')
 const serve = require('webpack-serve')
 const compiler = require('vue-template-compiler')
 const Vue = require('vue')
+const vueLoader = require('vue-loader')
+const httpVueLoader = require('http-vue-loader')
 
 
 const configSFC = require('./engine/webpack.config.js')
@@ -16,6 +18,36 @@ const configSFC = require('./engine/webpack.config.js')
  * 4. Ask for container priming e.g. align, width
  * 5. Run the file in the browser
  */
+
+async function propsDataQuestions (array) {
+  const answer = await inquirer.prompt([
+    {
+      name: 'key',
+      message: 'Enter the name of the key for the prop: ',
+      type: 'input'
+    }, {
+      name: 'value',
+      message: 'Enter the value of the key for the prop: ',
+      type: 'input'
+    }
+  ])
+
+  array.push({
+    key: answer.key,
+    value: answer.value,
+    type: 'String'
+  })
+
+  const again = await inquirer.prompt([
+    {
+      name: 'check',
+      message: 'Would you like to add another prop?',
+      type: 'confirm'
+    }
+  ])
+
+  if (again.check) propsDataQuestions(array)
+}
 
 async function run() {
     const availableFiles = fs.readdirSync(process.cwd()).filter(file => path.extname(file) === ".vue")
@@ -36,34 +68,16 @@ async function run() {
     const script = parsed.script ? parsed.script.content : ''
 
     if (script) {
-      const scriptContents = script.split('export default ').pop()
-        .replace(/(['"])?([a-z0-9A-Z_]+)(['"])?:/g, '"$2": ')
-        .replace(/('|`)/g, '"')
-        .replace(/(?<![\S"])(\w+)(?![\S"])/g, '"$1"')
+      if (script.indexOf('props') > -1) {
+        const propsWanted = await inquirer.prompt([
+          {
+            name: 'propsRequest',
+            message: 'There appears to be props on this instance would you like to add? (Y/n)',
+            type: 'confirm'
+          }
+        ])
 
-      const scriptObj = JSON.parse(scriptContents)
-      const propsRequired = []
-
-      if (scriptObj.props) {
-        console.log(scriptObj.props)
-        
-        Object.keys(scriptObj.props).forEach(prop => { 
-          propsRequired.push({
-            name: `${prop}/${scriptObj.props[prop].type}`,
-            message: `Please enter the prop data for "${prop}" of type "${scriptObj.props[prop].type}"`,
-            type: 'input'
-          })
-        })
-
-        const propsAnswers = await inquirer.prompt(propsRequired)
-        Object.keys(propsAnswers).forEach(prop => {
-          const keyType = prop.split('/')
-          propsData.push({
-            key: keyType[0],
-            type: keyType[1],
-            value: propsAnswers[prop]
-          })
-        })
+        if (propsWanted.propsRequest) await propsDataQuestions(propsData)
       }
     }
 
@@ -73,7 +87,19 @@ async function run() {
         entry: `${process.cwd()}/${questions.file}`,
         props: propsData
     })
-    serve({ config })
+
+    serve({ 
+      config,
+      devMiddleware: {
+        logLevel: 'error',
+        logTime: true,
+        stats: {
+          assets: false,
+          chunks: false,
+          modules: false
+        }
+      }
+    })
 }
 
 module.exports = run
