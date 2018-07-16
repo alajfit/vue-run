@@ -84,7 +84,7 @@ module.exports = opts => {
 
         plugins: [
             new HtmlWebpackPlugin({
-                title: 'vue-run',
+                title: opts.componentName,
                 favicon: path.resolve(__dirname, '../../docs/assets/vue.png')
             }),
             new VueLoaderPlugin(),
