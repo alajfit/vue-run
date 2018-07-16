@@ -52,10 +52,12 @@
     "pug-plain-loader": "^1.0.0",
     "raw-loader": "^0.5.1",
     "sass-loader": "^7.0.3",
+    "vue": "^2.5.16",
     "vue-loader": "^15.2.4",
     "vue-style-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.16",
     "webpack": "^4.15.1",
+    "webpack-hot-client": "^4.1.1",
     "webpack-plugin-replace": "^1.1.1",
     "webpack-serve": "^1.0.4"
   }

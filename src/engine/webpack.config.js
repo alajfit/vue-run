@@ -7,6 +7,11 @@ module.exports = opts => {
     const config = {
         devtool: 'eval-source-map',
         mode: 'development',
+        resolve: {
+            alias: {
+                'webpack-hot-client/client': require.resolve('webpack-hot-client/client')
+            },
+        },
         serve: {
             contentBase: opts.cwd,
             compress: true,

@@ -1,6 +1,9 @@
 document.querySelector('body').innerHTML = `<div id="app"></div>`
 
 Vue.config.productionTip = false
+Vue.config.devtools = true
+Vue.config.debug = true
+
 const app = new Vue({ 
     template: `<div ref="container"></div>`,
     el: '#app'
